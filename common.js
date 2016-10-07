@@ -11,7 +11,7 @@ function log() {
 }
 
 function fixSettings( settings ) {
-
+  var defaultSettings = {};
   if( settings === undefined ) return defaultSettings;
 
   var res = {}
