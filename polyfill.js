@@ -66,6 +66,20 @@
 
     // post({action: 'hmd-activate', value: true});
 
+    // resolves when document readyState complete
+    var documentComplete = new Promise(function(resolve) {
+      if(document.readyState === 'complete') {
+        resolve();
+      }
+
+      var interval = setInterval(function() {
+        if(document.readyState === 'complete') {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 100);
+    });
+
     function VRNavigator (vrDisplay) {
       var self = this;
       this.vrDisplay = vrDisplay;
@@ -96,7 +110,7 @@
           // var e3 = createVRDisplayEvent('vrdisplaypresentchange', self, 'unmounted');
           // window.dispatchEvent(e3);
 
-          window.addEventListener('load', function () {
+          documentComplete.then(function() {
 
             // Array.prototype.forEach.call(document.querySelectorAll('button, a'), function (el) {
             //   if ((el.alt || '').toLowerCase().indexOf('vr') > -1 ||
